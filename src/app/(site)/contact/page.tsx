@@ -6,7 +6,7 @@ import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Talk to a person at Vektor Logistics, 24/7/365. Offices in Monterey, Fresno, Fontana, Pleasanton and Lakewood Ranch, FL.",
+  description: "Talk to a Vektor agent, 24/7/365. Offices in Monterey, Fresno, Fontana, Pleasanton and Lakewood Ranch, FL.",
 };
 
 export default async function Contact({ searchParams }: PageProps<"/contact">) {
@@ -15,7 +15,7 @@ export default async function Contact({ searchParams }: PageProps<"/contact">) {
   return (
     <>
       <div className="spacer-hdr" />
-      <Offices title="Talk to a person." />
+      <Offices title="Talk to an agent." />
       <section className="sec paper" id="message">
         <div className="wrap split" style={{ alignItems: "start" }}>
           <div>

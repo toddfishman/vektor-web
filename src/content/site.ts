@@ -30,6 +30,16 @@ export const site = {
     phone: { display: "(831) 220-8093", tel: "+18312208093" },
     sms: "+18312208093" as string | null, // TODO(vektor): set to null if the line can't receive texts
     mode: "callback" as "call" | "callback" | "chat",
+    /*
+      "Was the agent not helpful? Call ___" — a direct line to a person.
+      TODO(vektor): real number (the one below is a non-working 555-01xx placeholder).
+      reveal: "after-agent" shows it only after the visitor has used the agent (call, text or
+      callback) in this browser; "always" shows it everywhere. Tyler's call.
+    */
+    escalation: {
+      phone: { display: "(555) 010-0100", tel: "+15550100100" },
+      reveal: "after-agent" as "after-agent" | "always",
+    },
   },
 
   /* TODO(vektor): real handles. Empty strings are hidden everywhere. */
@@ -65,17 +75,23 @@ export const offices: Office[] = [
 ];
 
 /*
-  "Trusted by" logos. A logo only renders when permission is "granted" AND a file exists.
-  Until then the section shows the text fallback. Never flip to granted without written
-  permission or contract language that allows it.
+  "Trusted by" customers. Todd confirmed (Oct 6, 2026) these are current customers and that
+  Vektor has permission to show their logos. TODO(vektor): keep the written permissions on file.
+
+  Logo files: drop a transparent SVG (preferred) or PNG named <slug>.svg / <slug>.png into
+  public/logos/. The section picks it up automatically at build time and renders it as a
+  single-color mark; until a file exists, the tile shows the name in text.
 */
-export type Customer = { name: string; logo?: string; permission: "pending" | "granted" };
+export type Customer = { name: string; slug: string; kind: string; permission: "pending" | "granted" };
 export const customers: Customer[] = [
-  { name: "Campbell's", permission: "pending" },
-  { name: "Trader Joe's", permission: "pending" },
-  { name: "Whole Foods", permission: "pending" },
+  { name: "Trader Joe's", slug: "trader-joes", kind: "Grocery", permission: "granted" },
+  { name: "Campbell's", slug: "campbells", kind: "Food", permission: "granted" },
+  { name: "Whole Foods Market", slug: "whole-foods", kind: "Grocery", permission: "granted" },
+  { name: "Krispy Kreme", slug: "krispy-kreme", kind: "Food", permission: "granted" },
+  { name: "Amway", slug: "amway", kind: "Consumer goods", permission: "granted" },
+  { name: "Dick's Sporting Goods", slug: "dicks-sporting-goods", kind: "Retail", permission: "granted" },
+  { name: "Fowler Packing", slug: "fowler-packing", kind: "Produce", permission: "granted" },
 ];
-export const customersFallback = "Serving national grocery and CPG brands";
 
 export const nav = [
   { href: "/shippers", label: "Ship" },

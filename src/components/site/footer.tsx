@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Lockup } from "@/components/brand/logo";
 import { offices, site, socialLinks } from "@/content/site";
+import { EmailActions, Escalation } from "./contact-actions";
 
 export function Band() {
   return (
@@ -50,7 +51,8 @@ export function Footer() {
           <ul>
             <li><span className="live">24/7/365</span></li>
             <li><a href={`tel:${site.agent.phone.tel}`}>{site.agent.phone.display}</a></li>
-            <li><a href={`mailto:${site.email.sales}`}>{site.email.sales}</a></li>
+            <li><Escalation className="escalate small" /></li>
+            <li><EmailActions compact /></li>
             <li>{hq.lines[0]}<br />{hq.lines[1]}</li>
           </ul>
         </div>

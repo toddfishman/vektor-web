@@ -4,7 +4,12 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { HeroMap, OfficesMap } from "@/components/map/maps";
 import { PROOF } from "@/content/marketing";
-import { customers, customersFallback, site } from "@/content/site";
+import { customers } from "@/content/site";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import type { CSSProperties } from "react";
+import { AgentActions, EmailActions, Escalation } from "./contact-actions";
+import { RevealList } from "./reveal";
 import { Btn, SectionHead } from "./ui";
 
 export { Btn, SectionHead, Credentials } from "./ui";
@@ -69,20 +74,45 @@ export function Audiences() {
   );
 }
 
-/** Customer logos for trust. Only permission-granted logos render; otherwise text fallback. */
-export function TrustedBy({ paper = false }: { paper?: boolean }) {
-  const shown = customers.filter((c) => c.permission === "granted" && c.logo);
+/** Resolve a customer's logo file in public/logos (svg preferred), at build/render time. */
+function logoFor(slug: string): string | null {
+  for (const ext of ["svg", "png", "webp"]) {
+    if (existsSync(join(process.cwd(), "public", "logos", `${slug}.${ext}`))) return `/logos/${slug}.${ext}`;
+  }
+  return null;
+}
+
+/** "Trusted by": full-bleed wall of customer marks. Only permission-granted customers show. */
+export function TrustedBy() {
+  const list = customers.filter((c) => c.permission === "granted");
+  if (!list.length) return null;
   return (
-    <section className={`sec trusted${paper ? " paper" : ""}`}>
+    <section className="sec trust" aria-labelledby="trust-h">
       <div className="wrap">
-        <p className="tag">Trusted by</p>
-        {shown.length ? (
-          <ul className="logos-row">
-            {shown.map((c) => <li key={c.name}><Image src={c.logo!} alt={c.name} width={180} height={64} /></li>)}
-          </ul>
-        ) : (
-          <p className="trusted-fallback">{customersFallback}.</p>
-        )}
+        <div className="trust-head">
+          <div>
+            <p className="tag">Trusted by</p>
+            <h2 id="trust-h">Brands you know ship with <em>Vektor.</em></h2>
+          </div>
+          <p className="lede">From fresh produce to sporting goods, national grocery, food and retail brands count on Vektor to move their freight.</p>
+        </div>
+        <RevealList className="trust-grid">
+          {list.map((c, i) => {
+            const logo = logoFor(c.slug);
+            return (
+              <li key={c.slug} className={`trust-tile${logo ? "" : " no-logo"}`} style={{ "--d": i } as CSSProperties}>
+                {logo
+                  /* eslint-disable-next-line @next/next/no-img-element -- static brand marks; SVGs skip the optimizer */
+                  ? <img src={logo} alt={c.name} className="trust-logo" loading="lazy" decoding="async" />
+                  : <span className="trust-name">{c.name}</span>}
+                <span className="trust-kind"><b>{c.name}</b>{c.kind}</span>
+              </li>
+            );
+          })}
+          <li className="trust-tile trust-cta" style={{ "--d": list.length } as CSSProperties}>
+            <Link href="/quote"><span className="trust-name">Your brand next?</span><span className="go">Get a quote</span></Link>
+          </li>
+        </RevealList>
       </div>
     </section>
   );
@@ -92,7 +122,11 @@ export function Offices({ title = "Five offices. One team." }: { title?: string 
   return (
     <section className="sec" id="offices">
       <div className="wrap">
-        <SectionHead tag="Find us" title={title} lede={<>Call <a href={`tel:${site.phone.tel}`}>{site.phone.display}</a> any hour, or email <a href={`mailto:${site.email.sales}`}>{site.email.sales}</a>.</>} />
+        <SectionHead tag="Find us" title={title} lede="A Vektor agent answers any hour, every day of the year. Call, text or ask for a callback." />
+        <div className="contact-strip">
+          <div className="btns"><AgentActions /><EmailActions /></div>
+          <Escalation />
+        </div>
         <OfficesMap />
       </div>
     </section>

@@ -9,8 +9,8 @@ export default function Home() {
       <Intro />
       <Hero />
       <Proof />
-      <Audiences />
       <TrustedBy />
+      <Audiences />
       <Story />
       <Services />
       <QuoteBuilder />

@@ -15,7 +15,8 @@ Status as of Oct 6, 2026. Items marked **blocker** must be done before DNS cutov
 | 7 | Live chat vs. callback vs. click-to-call only | `site.agent.mode` (currently `callback`) | |
 | 8 | Social handles (LinkedIn, Facebook, Instagram, YouTube/X) | `site.social` | |
 | 9 | Google + BusinessRate profile URLs for recommendations | `site.reviews` | |
-| 10 | Customer-logo permissions (Campbell's, Trader Joe's, Whole Foods): confirm each is a customer and that the logo may be shown | `customers` in `site.ts`; set `permission: "granted"` + add the logo file | Text fallback ships until then |
+| 10 | Customer logo files (Trader Joe's, Campbell's, Whole Foods, Krispy Kreme, Amway, Dick's, Fowler Packing). Permission confirmed by Todd Oct 6; keep the written permissions on file | Drop transparent SVG/PNG files into `public/logos/` named by slug (see `public/logos/README.md`) | Tiles show names until files land |
+| 10b | Escalation number for "Was the agent not helpful? Call ___" (placeholder 555 number today) and whether it shows always or only after the agent is used | `site.agent.escalation` | **blocker** |
 | 11 | Referral reward terms, if any | `/refer` page | |
 | 12 | Photo rights for every image in `public/img` | Replace any without rights | **blocker** |
 | 13 | Testimonials approved for public use | `TESTIMONIALS` in `marketing.ts` | |
