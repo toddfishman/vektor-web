@@ -54,6 +54,7 @@ export function Header() {
             {socials.length > 0 && (
               <ul className="socials">{socials.map((s) => <li key={s.key}><a href={s.url} rel="me noopener" target="_blank">{s.label}</a></li>)}</ul>
             )}
+            <Link className="nav-portal" href="/team">Employee portal</Link>
           </div>
         </nav>
       </div>

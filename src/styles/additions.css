@@ -219,3 +219,7 @@ small.err, .sent.err, .qnote.err { color: var(--sig-ink); font-size: .85rem }
 .cust-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 2rem; margin-top: clamp(36px, 5vw, 56px) }
 .cust-list .h5 { font-family: var(--fm); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: var(--sodium); margin: 0 0 .8rem; font-weight: 500 }
 .cust-list ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; color: #fff; font-weight: 600 }
+
+/* small employee-portal link in the menu */
+.nav .nav-meta a.nav-portal:not(.btn) { font-family: var(--fm); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--steel); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: .15rem }
+.nav .nav-meta a.nav-portal:not(.btn):hover { color: #fff; border-color: var(--sig) }
