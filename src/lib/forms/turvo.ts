@@ -49,7 +49,7 @@ export function toTurvo(q: Quote, quoteId: string) {
       reeferMode: q.equipment === "reefer" ? q.reeferMode : undefined,
       hazmat: q.hazmat ? { unNumber: q.unNumber, hazardClass: q.hazardClass } : undefined,
     },
-    items: { count: q.handlingUnits || undefined, handlingQuantityUnit: q.handlingUnitType || undefined },
+    items: q.handlingUnits ? { count: q.handlingUnits, handlingQuantityUnit: q.handlingUnitType || undefined } : undefined,
     requestedPickupDate: q.pickupDate,
     requestedDeliveryDate: q.deliverBy || undefined,
     tags: q.accessorials.map((a) => ACC_NAME[a]),

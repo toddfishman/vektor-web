@@ -72,6 +72,7 @@ export function Intro() {
         </span>
       </button>
       <a className="cue" href="#hero"><span>Find your direction</span><i /></a>
+      <noscript><style>{".intro .iimg{opacity:.9!important}.intro .ilogo .mk,.intro .ilogo .vk b,.intro .ilogo .lg,.intro .cue{opacity:1!important;clip-path:none!important}"}</style></noscript>
     </section>
   );
 }

@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# vektor-web
 
-## Getting Started
+Production site for **Vektor Logistics** (vektor-logistics.com), plus the authenticated employee area at `/team`.
 
-First, run the development server:
+Built from the "Vektor Signal" prototype (design source of truth) and `research/Website_Build_Handoff.md` (Oct 6, 2026).
+
+## Stack
+
+- **Next.js 16** (App Router, TypeScript, Turbopack). Note: in v16 `middleware` is now `src/proxy.ts`, and `params`/`searchParams` are async.
+- **Plain CSS + design tokens.** `src/theme/tokens.css` holds every color, font and spacing value; components never hard-code brand colors. The canvas lane maps read their colors from the same tokens.
+- **Self-hosted fonts** via `@fontsource-variable` (Archivo with width axis, Hanken Grotesk, JetBrains Mono, Space Grotesk). No Google Fonts calls.
+- **Forms**: one zod schema per form (`src/lib/forms/schemas.ts`) shared by client and server; `POST /api/forms/:form` delivers by email (Resend) and/or signed webhook (CRM).
+- **Employee area**: Auth.js (`next-auth@5`) with Microsoft Entra ID (M365) SSO, roles from Entra app roles, gated by `src/proxy.ts`, never cached.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+cp .env.example .env.local   # fill what you need; forms log to the console in dev if no channel is set
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Checks: `npm run typecheck`, `npm run lint`, `npm run build`. CI runs all three on every PR (`.github/workflows/ci.yml`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Where things live
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Path | What |
+|---|---|
+| `src/theme/tokens.css` | Coral & Black tokens. Reskin here. |
+| `src/content/site.ts` | Company facts, phone/24-7 agent line, socials, review links, offices, customer logos + permission flags, nav. **Most TODO(vektor) items are here.** |
+| `src/content/marketing.ts` | Services, story steps, testimonials, sample lanes, partnership programs |
+| `src/content/team.ts` | Dashboard quick links, announcements, documents, on-call |
+| `src/components/brand/logo.tsx` | Heading mark, header/footer lockups, intro mark |
+| `src/components/site/intro.tsx` | Home intro animation (arrow → V, EKTOR, LOGISTICS wipe, shine) |
+| `src/components/site/header.tsx` | Header + full-screen menu |
+| `src/components/map/lane-map.ts` | Canvas 3D lane-map renderer (framework-free) |
+| `src/components/quote/quote-builder.tsx` | Quote builder (Route · Freight · Timing · Extras · Contact) |
+| `src/lib/forms/turvo.ts` | Quote → Turvo field mapping |
+| `src/lib/leads.ts` | Lead delivery (Resend email, signed webhook) |
+| `src/auth.ts`, `src/proxy.ts`, `src/app/team/` | Employee area |
+| `docs/` | Decisions, launch checklist, M365 SSO setup |
 
-## Learn More
+## Pages
 
-To learn more about Next.js, take a look at the following resources:
+Public: `/`, `/shippers`, `/carriers`, `/partnerships`, `/quote`, `/careers`, `/about`, `/contact` (`?topic=callback` for callback requests), `/refer`, `/privacy`, `/terms`, `/accessibility`.
+Employee: `/team` (dashboard), `/team/sign-in`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Reskinning
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Add a `[data-theme="name"]` block in `tokens.css` overriding the same variables (including `--map-*` and `--logo-*`), then set `theme` in `src/content/site.ts`. Swap the mark in `logo.tsx` if the identity changes.
 
-## Deploy on Vercel
+## Before launch
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [`docs/launch-checklist.md`](docs/launch-checklist.md). Open product/tech choices are in [`docs/decisions.md`](docs/decisions.md).

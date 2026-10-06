@@ -123,7 +123,7 @@ export function QuoteBuilder({ big = false, initialEq }: { big?: boolean; initia
   // lane map
   useEffect(() => {
     if (!cv.current) return;
-    map.current = createLaneMap(cv.current, { lanes: [["Salinas", "Seattle", "reefer"]], tilt: 0.72, yaw: 0, single: true, cx: 0.5, cy: 0.6, zoom: 0.8, fit: 0.95, dot: "150,164,180" });
+    map.current = createLaneMap(cv.current, { lanes: [], tilt: 0.72, yaw: 0, single: true, cx: 0.5, cy: 0.6, zoom: 0.8, fit: 0.95, dot: "150,164,180" });
     return () => map.current?.destroy();
   }, []);
 

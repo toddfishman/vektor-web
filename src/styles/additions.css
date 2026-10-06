@@ -35,7 +35,8 @@ a:not([class]) { text-underline-offset: 3px }
   .agentbar { position: fixed; z-index: 70; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .6rem var(--gut) calc(.6rem + env(safe-area-inset-bottom, 0px)); background: rgba(var(--night-rgb), .94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--rule) }
   .agentbar-t { display: flex; flex-direction: column; gap: .15rem; font-size: .82rem; font-weight: 600; color: #fff; line-height: 1.2 }
   .agentbar-a { display: flex; gap: .4rem }
-  .agentbar .btn { padding: .6rem .9rem; font-size: .85rem; box-shadow: none }
+  .agentbar .btn { padding: .6rem .9rem; font-size: .85rem }
+  .agentbar .btn:not(.ghost) { box-shadow: none }
   body { padding-bottom: 72px }
   body.at-intro .agentbar { transform: translateY(110%) }
   .agentbar { transition: transform .4s }
@@ -94,3 +95,21 @@ small.err, .sent.err, .qnote.err { color: var(--sig-ink); font-size: .85rem }
 .prose p, .prose li { color: var(--ink2) }
 .notice { border-left: 3px solid var(--sig-ink); background: var(--sig-soft); color: var(--ink); padding: .9rem 1.1rem; margin-bottom: 2rem; font-size: .95rem }
 .spacer-hdr { height: var(--hdr-h) }
+
+/* full-screen menu sizing: six links must fit short viewports too */
+.nav { overflow-y: auto }
+.nav a:not(.btn) { font-size: clamp(2.2rem, min(7.5vw, 9.2svh), 6.6rem) }
+
+/* intro: keep the lockup hidden until the client starts the sequence (no flash before hydration) */
+.intro:not(.play) .ilogo .vk b, .intro:not(.play) .ilogo .lg { opacity: 0 }
+
+/* keep the closed drawer's shadow from bleeding onto paper sections */
+.drawer { transition: transform .5s cubic-bezier(.2, .7, .2, 1), visibility 0s .5s }
+.drawer:not(.on) { visibility: hidden; box-shadow: none }
+.drawer.on { transition: transform .5s cubic-bezier(.2, .7, .2, 1), visibility 0s }
+.sec:has(> .wrap > .programs:last-child) { padding-bottom: 0 }
+@media (max-width: 760px) {
+  .hud { bottom: calc(clamp(24px, 5vw, 56px) + 72px) }
+  .agentbar-t { font-size: .78rem }
+}
+@media (max-width: 380px) { .agentbar-t { display: none } .agentbar-a { flex: 1; justify-content: space-between } }

@@ -5,7 +5,11 @@ export default async function SignIn({ searchParams }: PageProps<"/team/sign-in"
   const { error, callbackUrl } = await searchParams;
   const session = ssoConfigured ? await auth() : null;
   if (session?.user) redirect("/team");
-  const back = typeof callbackUrl === "string" && callbackUrl.startsWith("/team") ? callbackUrl : "/team";
+  // only ever return to a page inside /team (callbackUrl may be absolute)
+  let back = "/team";
+  if (typeof callbackUrl === "string") {
+    try { const p = new URL(callbackUrl, "http://x").pathname; if (p.startsWith("/team") && !p.startsWith("/team/sign-in")) back = p; } catch { /* ignore */ }
+  }
 
   return (
     <main className="team-signin">

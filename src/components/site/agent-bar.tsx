@@ -13,7 +13,7 @@ export function AgentBar() {
       <div className="agentbar-a">
         <a className="btn" href={`tel:${a.phone.tel}`}>Call</a>
         {a.sms && <a className="btn ghost" href={`sms:${a.sms}`}>Text</a>}
-        {a.mode === "callback" && <Link className="btn ghost" href="/contact?topic=callback#message">Call me back</Link>}
+        {a.mode === "callback" && <Link className="btn ghost" href="/contact?topic=callback#message">Callback</Link>}
       </div>
     </aside>
   );
