@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { auth, signIn, ssoConfigured } from "@/auth";
+import Link from "next/link";
+import { auth, signIn, ssoConfigured, teamDemo } from "@/auth";
 
 export default async function SignIn({ searchParams }: PageProps<"/team/sign-in">) {
   const { error, callbackUrl } = await searchParams;
@@ -22,7 +23,10 @@ export default async function SignIn({ searchParams }: PageProps<"/team/sign-in"
           <button className="btn" type="submit">Continue with Microsoft <i className="ar" /></button>
         </form>
       ) : (
-        <p className="team-err">Microsoft 365 sign-in isn’t configured on this deployment yet. See docs/m365-sso.md.</p>
+        <>
+          <p className="team-err">Microsoft 365 sign-in isn’t configured on this deployment yet. See docs/m365-sso.md.</p>
+          {teamDemo && <Link className="btn" href="/team">Open the portal preview <i className="ar" /></Link>}
+        </>
       )}
     </main>
   );

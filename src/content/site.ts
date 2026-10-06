@@ -98,7 +98,7 @@ export const nav = [
   { href: "/carriers", label: "Haul" },
   { href: "/partnerships", label: "Partner" },
   { href: "/careers", label: "Careers" },
-  { href: "/about", label: "About" },
+  { href: "/trust", label: "Trust" },
   { href: "/contact", label: "Contact" },
 ] as const;
 

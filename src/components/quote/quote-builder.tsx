@@ -87,13 +87,31 @@ function readiness(q: Q, pickup: string) {
   return { s, miss };
 }
 
-export function QuoteBuilder({ big = false, initialEq }: { big?: boolean; initialEq?: string }) {
+/** Values the AI agent (or a link) can pre-fill: /quote?o=&d=&mode=&eq=&com=&wt=&pd= */
+export type QuotePrefill = { origin?: string; destination?: string; mode?: string; equipment?: string; commodity?: string; weightLb?: string; pickupDate?: string };
+
+function fromPrefill(initialEq?: string, p?: QuotePrefill): Q {
+  let q: Q = { ...empty };
+  const pre = initialEq ? FROM_SERVICE[initialEq] : undefined;
+  if (pre) q = { ...q, mode: pre[0], equipment: pre[1] };
+  if (!p) return q;
+  if (p.mode && (QUOTE_MODES as readonly string[]).includes(p.mode)) {
+    const m = p.mode as Mode, list = EQUIP_BY_MODE[m] as string[];
+    q.mode = m;
+    q.equipment = !list.length ? null : p.equipment && list.includes(p.equipment) ? p.equipment : list.includes(q.equipment ?? "") ? q.equipment : list[0];
+  } else if (p.equipment && (EQUIP_BY_MODE[q.mode] as string[]).includes(p.equipment)) q.equipment = p.equipment;
+  if (p.origin) q.origin = p.origin.slice(0, 120);
+  if (p.destination) q.destination = p.destination.slice(0, 120);
+  if (p.commodity) q.commodity = p.commodity.slice(0, 200);
+  if (p.weightLb) q.weightLb = p.weightLb.replace(/[^\d]/g, "").slice(0, 9);
+  if (p.pickupDate && /^\d{4}-\d{2}-\d{2}$/.test(p.pickupDate)) { q.pickupDate = p.pickupDate; q.pickupTouched = true; }
+  return q;
+}
+
+export function QuoteBuilder({ big = false, initialEq, prefill }: { big?: boolean; initialEq?: string; prefill?: QuotePrefill }) {
   const uid = useId();
   const id = (k: string) => `${uid}-${k}`;
-  const [q, setQ] = useState<Q>(() => {
-    const pre = initialEq ? FROM_SERVICE[initialEq] : undefined;
-    return pre ? { ...empty, mode: pre[0], equipment: pre[1] } : empty;
-  });
+  const [q, setQ] = useState<Q>(() => fromPrefill(initialEq, prefill));
   const [need, setNeed] = useState<string | null>(null);
   const { state, submit } = useSubmit("quote");
   const cv = useRef<HTMLCanvasElement>(null);

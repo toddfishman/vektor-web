@@ -82,10 +82,35 @@ function logoFor(slug: string): string | null {
   return null;
 }
 
-/** "Trusted by": full-bleed wall of customer marks. Only permission-granted customers show. */
-export function TrustedBy() {
+/** Customer logo wall. Only permission-granted customers show. */
+export function LogoWall({ cta = true }: { cta?: boolean }) {
   const list = customers.filter((c) => c.permission === "granted");
-  if (!list.length) return null;
+  return (
+    <RevealList className="trust-grid">
+      {list.map((c, i) => {
+        const logo = logoFor(c.slug);
+        return (
+          <li key={c.slug} className={`trust-tile${logo ? "" : " no-logo"}`} style={{ "--d": i } as CSSProperties}>
+            {logo
+              /* eslint-disable-next-line @next/next/no-img-element -- small static brand marks */
+              ? <img src={logo} alt={c.name} className="trust-logo" loading="lazy" decoding="async" />
+              : <span className="trust-name">{c.name}</span>}
+            <span className="trust-kind"><b>{c.name}</b>{c.kind}</span>
+          </li>
+        );
+      })}
+      {cta && (
+        <li className="trust-tile trust-cta" style={{ "--d": list.length } as CSSProperties}>
+          <Link href="/quote"><span className="trust-name">Your brand next?</span><span className="go">Get a quote</span></Link>
+        </li>
+      )}
+    </RevealList>
+  );
+}
+
+/** "Trusted by": headline + logo wall + link to the full customer list. */
+export function TrustedBy() {
+  if (!customers.some((c) => c.permission === "granted")) return null;
   return (
     <section className="sec trust" aria-labelledby="trust-h">
       <div className="wrap">
@@ -96,37 +121,24 @@ export function TrustedBy() {
           </div>
           <p className="lede">From fresh produce to sporting goods, national grocery, food and retail brands count on Vektor to move their freight.</p>
         </div>
-        <RevealList className="trust-grid">
-          {list.map((c, i) => {
-            const logo = logoFor(c.slug);
-            return (
-              <li key={c.slug} className={`trust-tile${logo ? "" : " no-logo"}`} style={{ "--d": i } as CSSProperties}>
-                {logo
-                  /* eslint-disable-next-line @next/next/no-img-element -- static brand marks; SVGs skip the optimizer */
-                  ? <img src={logo} alt={c.name} className="trust-logo" loading="lazy" decoding="async" />
-                  : <span className="trust-name">{c.name}</span>}
-                <span className="trust-kind"><b>{c.name}</b>{c.kind}</span>
-              </li>
-            );
-          })}
-          <li className="trust-tile trust-cta" style={{ "--d": list.length } as CSSProperties}>
-            <Link href="/quote"><span className="trust-name">Your brand next?</span><span className="go">Get a quote</span></Link>
-          </li>
-        </RevealList>
+        <LogoWall />
+        <div className="trust-more">
+          <Link className="trust-all" href="/customers">See our complete list of valued customers</Link>
+        </div>
       </div>
     </section>
   );
 }
 
-export function Offices({ title = "Five offices. One team." }: { title?: string }) {
+export function Offices({ title = "Five offices. One team.", strip = true }: { title?: string; strip?: boolean }) {
   return (
     <section className="sec" id="offices">
       <div className="wrap">
-        <SectionHead tag="Find us" title={title} lede="A Vektor agent answers any hour, every day of the year. Call, text or ask for a callback." />
-        <div className="contact-strip">
+        <SectionHead tag="Find us" title={title} lede={strip ? "A Vektor agent answers any hour, every day of the year. Chat, call, text or ask for a callback." : "Monterey headquarters, operations in Fresno, accounting in Fontana, corporate in Pleasanton, and an East Coast office in Florida."} />
+        {strip && <div className="contact-strip">
           <div className="btns"><AgentActions /><EmailActions /></div>
           <Escalation />
-        </div>
+        </div>}
         <OfficesMap />
       </div>
     </section>

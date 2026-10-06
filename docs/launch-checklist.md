@@ -27,6 +27,13 @@ Status as of Oct 6, 2026. Items marked **blocker** must be done before DNS cutov
 | 18 | Tenant-specific links for Drumkit, Bitfreighter, SharePoint docs, on-call source | `src/content/team.ts` | |
 | 19 | Exact legal entity name | `site.legalName` | |
 
+## AI agent
+- [ ] **blocker** Anthropic API key in Vercel (`ANTHROPIC_API_KEY`), on Vektor's account before launch; set a monthly spend limit in the Anthropic console.
+- [ ] **blocker** Vektor reviews `src/lib/agent/knowledge.ts` line by line (it's what the agent says publicly), and confirms or removes every [CONFIRM] item.
+- [ ] Red-team pass: try to get rates, promises, other customers' details, off-topic answers; fix anything that slips.
+- [ ] Privacy policy covers chat transcripts and callback requests.
+- [ ] Decide on voice (Deepgram or similar) and the human escalation number.
+
 ## Legal & trust
 
 - [ ] **blocker** Privacy policy, terms of use from counsel (pages are placeholders with a visible banner until `NEXT_PUBLIC_LEGAL_FINAL=1`).

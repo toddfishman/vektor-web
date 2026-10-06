@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SimpleForm } from "@/components/forms/simple-form";
+import { AgentChat } from "@/components/agent/agent-chat";
+import { AgentActions, EmailActions, Escalation } from "@/components/site/contact-actions";
 import { Offices } from "@/components/site/sections";
 import { site } from "@/content/site";
 
@@ -15,7 +17,20 @@ export default async function Contact({ searchParams }: PageProps<"/contact">) {
   return (
     <>
       <div className="spacer-hdr" />
-      <Offices title="Talk to an agent." />
+      <section className="sec agent-sec">
+        <div className="wrap agent-grid">
+          <div className="agent-copy">
+            <p className="tag">Contact</p>
+            <h1>Talk to an agent.</h1>
+            <p className="lede">Vektor&rsquo;s AI agent knows our services, equipment and how quoting works. It can start your quote or get a person to call you back, any hour.</p>
+            <p className="agent-or">Rather talk to a person?</p>
+            <div className="btns"><AgentActions chat={false} /><EmailActions /></div>
+            <Escalation />
+          </div>
+          <AgentChat />
+        </div>
+      </section>
+      <Offices title="Five offices. One team." strip={false} />
       <section className="sec paper" id="message">
         <div className="wrap split" style={{ alignItems: "start" }}>
           <div>

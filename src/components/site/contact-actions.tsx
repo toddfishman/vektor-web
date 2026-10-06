@@ -30,14 +30,15 @@ export function useAgentUsed() {
   return useSyncExternalStore(subscribe, read, () => false);
 }
 
-/** Call / Text / Callback buttons for the 24/7 agent. */
-export function AgentActions({ compact = false }: { compact?: boolean }) {
+/** Chat (AI agent, first route) / Call / Text / Callback buttons. */
+export function AgentActions({ compact = false, chat = true }: { compact?: boolean; chat?: boolean }) {
   const a = site.agent;
   return (
     <>
-      <a className="btn" href={`tel:${a.phone.tel}`} onClick={markAgentUsed}>{compact ? "Call" : "Call an agent"}{!compact && <> <i className="ar" /></>}</a>
+      {chat && <Link className="btn" href="/contact#agent">{compact ? "Chat" : "Chat with an agent"}{!compact && <> <i className="ar" /></>}</Link>}
+      <a className={chat ? "btn ghost" : "btn"} href={`tel:${a.phone.tel}`} onClick={markAgentUsed}>{compact ? "Call" : "Call an agent"}</a>
       {a.sms && <a className="btn ghost" href={`sms:${a.sms}`} onClick={markAgentUsed}>Text</a>}
-      {a.mode === "callback" && <Link className="btn ghost" href="/contact?topic=callback#message" onClick={markAgentUsed}>Callback</Link>}
+      {a.mode === "callback" && !compact && <Link className="btn ghost" href="/contact?topic=callback#message" onClick={markAgentUsed}>Callback</Link>}
     </>
   );
 }

@@ -4,15 +4,16 @@ import { Story, Testimonials } from "@/components/site/interactive";
 import { Btn, Offices, PageHead, TrustedBy } from "@/components/site/sections";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "Trust",
   description: "Vektor Logistics focuses on long-term value, connecting the dots between shippers, carriers and retailers.",
 };
 
-export default function About() {
+export default function Trust() {
   return (
     <>
-      <PageHead img="about-banner" tag="About Vektor" title="3PLs are a dime a dozen. So what’s the difference?"
+      <PageHead img="about-banner" tag="Trust" title="3PLs are a dime a dozen. So what’s the difference?"
         lede="Most brokers obsess over profit per file and loads per person. We focus on long-term value, connecting the dots between shippers, carriers and retailers." />
+      <TrustedBy />
       <section className="sec">
         <div className="wrap split">
           <div>
@@ -25,7 +26,6 @@ export default function About() {
           <div className="ph" style={{ position: "relative" }}><Image src="/img/who-we-are.jpg" alt="Vektor team in a produce warehouse" fill sizes="(max-width:860px) 100vw, 50vw" /></div>
         </div>
       </section>
-      <TrustedBy />
       <Story />
       <Testimonials />
       <Offices />

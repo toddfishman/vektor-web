@@ -8,11 +8,14 @@ export const metadata: Metadata = {
 };
 
 export default async function QuotePage({ searchParams }: PageProps<"/quote">) {
-  const { eq } = await searchParams;
+  const sp = await searchParams;
+  const one = (k: string) => { const v = sp[k]; return typeof v === "string" ? v : undefined; };
+  const eq = one("eq");
   return (
     <>
       <div className="spacer-hdr" style={{ background: "var(--paper)" }} />
-      <QuoteBuilder big initialEq={typeof eq === "string" ? eq : undefined} />
+      <QuoteBuilder big initialEq={sp.mode ? undefined : eq}
+        prefill={{ origin: one("o"), destination: one("d"), mode: one("mode"), equipment: eq, commodity: one("com"), weightLb: one("wt"), pickupDate: one("pd") }} />
       <Story />
     </>
   );

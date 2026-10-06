@@ -37,13 +37,16 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run build`. CI runs all three 
 | `src/components/quote/quote-builder.tsx` | Quote builder (Route · Freight · Timing · Extras · Contact) |
 | `src/lib/forms/turvo.ts` | Quote → Turvo field mapping |
 | `src/lib/leads.ts` | Lead delivery (Resend email, signed webhook) |
-| `src/auth.ts`, `src/proxy.ts`, `src/app/team/` | Employee area |
+| `src/lib/agent/` | AI agent: `knowledge.ts` (public facts), `prompt.ts` (rules), `tools.ts`, `run.ts` (provider) |
+| `public/logos/` | Customer logo marks (transparent PNG/SVG, auto-detected by slug) |
+| `src/auth.ts`, `src/proxy.ts`, `src/lib/team.ts`, `src/app/team/` | Employee portal |
 | `docs/` | Decisions, launch checklist, M365 SSO setup |
 
 ## Pages
 
-Public: `/`, `/shippers`, `/carriers`, `/partnerships`, `/quote`, `/careers`, `/about`, `/contact` (`?topic=callback` for callback requests), `/refer`, `/privacy`, `/terms`, `/accessibility`.
-Employee: `/team` (dashboard), `/team/sign-in`.
+Public: `/`, `/shippers`, `/carriers`, `/partnerships`, `/quote` (pre-fill with `?o=&d=&mode=&eq=&com=&wt=&pd=`), `/careers`, `/trust`, `/customers`, `/contact` (AI agent chat first; `?topic=callback` for callbacks), `/refer`, `/privacy`, `/terms`, `/accessibility`.
+Employee portal: `/team` (dashboard), `/team/quotes`, `/team/announcements`, `/team/directory`, `/team/on-call`, `/team/documents`, `/team/tools`, `/team/admin` (leadership), `/team/sign-in`.
+API: `/api/forms/:form`, `/api/agent` (chat, NDJSON stream), `/api/auth/*`.
 
 ## Reskinning
 

@@ -22,8 +22,16 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
-    // Old WordPress URLs → new pages. TODO(vektor): crawl the live site and complete this list before cutover.
-    return [];
+    // Old WordPress URLs (from the live site's navigation, Oct 2026) → new pages.
+    // TODO(vektor): crawl the full live site (blog posts, etc.) before cutover and extend this.
+    return [
+      { source: "/about", destination: "/trust", permanent: true },
+      { source: "/about-us", destination: "/trust", permanent: true },
+      { source: "/our-team", destination: "/trust", permanent: true },
+      { source: "/our-services", destination: "/shippers", permanent: true },
+      { source: "/services/:slug*", destination: "/shippers", permanent: true },
+      { source: "/privacy-policy", destination: "/privacy", permanent: true },
+    ];
   },
 };
 

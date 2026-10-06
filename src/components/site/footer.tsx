@@ -42,7 +42,8 @@ export function Footer() {
             <li><Link href="/partnerships">Partnerships</Link></li>
             <li><Link href="/refer">Refer &amp; recommend</Link></li>
             <li><Link href="/careers">Careers</Link></li>
-            <li><Link href="/about">About</Link></li>
+            <li><Link href="/trust">Trust</Link></li>
+            <li><Link href="/customers">Customers</Link></li>
             <li><Link href="/contact">Contact</Link></li>
           </ul>
         </div>
@@ -67,7 +68,7 @@ export function Footer() {
           <span>© {new Date().getFullYear()} {site.legalName}</span>
           <span>{site.mc} · {site.usdot}</span>
           <span className="legal">
-            <Link href="/privacy">Privacy</Link> · <Link href="/terms">Terms</Link> · <Link href="/accessibility">Accessibility</Link> · <Link href="/team">Team sign-in</Link>
+            <Link href="/privacy">Privacy Policy</Link> · <Link href="/terms">Terms of Service</Link> · <Link href="/accessibility">Accessibility</Link> · <Link href="/team">Employee portal</Link>
           </span>
         </div>
       </div>

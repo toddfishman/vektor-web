@@ -15,6 +15,11 @@
 | Old prototype features dropped: identity switcher, menu-style switcher, "Show Turvo field names" toggle | Prototype review tools, not site features. The Turvo mapping lives in code and docs instead. |
 | Quote miles/transit use the prototype's city list and great-circle × 1.18 | Planning estimate only, labeled as such. Real geocoding is a follow-up. |
 
+| Website AI agent = Claude (claude-sonnet-5-5) behind one `runAgent()` function, text chat first | Fast to ship and strong at grounded Q&A + tool use. Voice (Deepgram, another voice-agent platform) plugs in front later without changing prompt, knowledge or tools. |
+| Agent facts live in `src/lib/agent/knowledge.ts`, rules in `prompt.ts`; public sources only | Keeps internal/consulting material out of anything the public can query. Facts marked [CONFIRM] need Vektor sign-off. |
+| Agent tools are narrow: pre-fill a quote link, request a callback (with consent), show a page link | No rates, no booking, no shipment lookups until those systems and policies exist. |
+| Employee portal preview mode on noindex drafts while SSO is off | Lets Tyler review the portal shape; disables itself once Entra SSO is configured. |
+
 ## Open
 
 | Question | Options | Notes |
@@ -22,7 +27,8 @@
 | CMS | Sanity, Payload (self-hosted in the same Next app), or stay file-based | Pick before case studies/insights. Payload keeps everything in one repo; Sanity has the friendliest editor. |
 | Lead store (feeds the dashboard's "today's quote requests") | SharePoint list via Microsoft Graph (fits M365), Postgres (Neon/Vercel), or the CRM itself | Webhook target is the system of record until then. A SharePoint list + Power Automate would let ops update status without a new tool. |
 | CRM | HubSpot, Salesforce, or Turvo CRM features | Determines `LEADS_WEBHOOK_URL`. |
-| 24/7 agent channel | click-to-call only, callback form (current default), or live chat vendor | Live chat needs staffing that matches "24/7/365". |
+| 24/7 agent channel | AI chat (built) + voice agent (Deepgram or similar) + human escalation line | Decide voice vendor; who answers the escalation line and when it shows (after agent vs. always). |
+| AI agent transcripts | keep in log drain, lead store, or not at all | Privacy policy must describe it before launch. |
 | Analytics | GA4 vs. Plausible/Fathom | Privacy-friendly option avoids a cookie banner. |
 | City/ZIP lookup in the quote builder | keep the curated list, or a geocoder (Mapbox, Google Places) | A geocoder adds a key, cost and a consent question; the free-text field already accepts any city/ZIP. |
 | Audit log destination | host log drain → Axiom/Datadog, or Azure Monitor (M365 side) | Needs retention for security review. |

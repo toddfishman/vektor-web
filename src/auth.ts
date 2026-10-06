@@ -25,6 +25,14 @@ declare module "next-auth" {
 
 export const ssoConfigured = Boolean(process.env.AUTH_MICROSOFT_ENTRA_ID_ID && process.env.AUTH_MICROSOFT_ENTRA_ID_SECRET && process.env.AUTH_MICROSOFT_ENTRA_ID_ISSUER);
 
+/*
+  Preview mode for draft deployments: lets reviewers see the portal before Microsoft 365 is
+  connected. Only possible while SSO is NOT configured, and only on a noindex preview
+  (NEXT_PUBLIC_NOINDEX=1) or with TEAM_DEMO=1. Shows placeholder content only, behind a banner.
+  It switches itself off the moment SSO is configured.
+*/
+export const teamDemo = !ssoConfigured && (process.env.TEAM_DEMO === "1" || process.env.NEXT_PUBLIC_NOINDEX === "1");
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     MicrosoftEntraID({
@@ -63,6 +71,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     /** Used by src/proxy.ts for /team/*. */
     authorized({ auth: a, request }) {
       if (request.nextUrl.pathname.startsWith("/team/sign-in")) return true;
+      if (teamDemo) return true;
       return Boolean(a?.user);
     },
   },

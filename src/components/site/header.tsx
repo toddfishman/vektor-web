@@ -8,7 +8,7 @@ import { Lockup } from "@/components/brand/logo";
 import { nav, site, socialLinks } from "@/content/site";
 
 /** Pages that open on a full-bleed photo keep a transparent header until scrolled. */
-const PHOTO_TOP = ["/", "/shippers", "/carriers", "/careers", "/about", "/partnerships"];
+const PHOTO_TOP = ["/", "/shippers", "/carriers", "/careers", "/trust", "/partnerships"];
 
 export function Header() {
   const path = usePathname();
