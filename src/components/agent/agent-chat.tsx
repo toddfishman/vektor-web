@@ -103,9 +103,8 @@ export function AgentChat() {
   return (
     <div className="chat" id="agent">
       <div className="chat-top">
-        <span className="live">Online · 24/7/365</span>
-        <span className="chat-title">Vektor agent</span>
-        <span className="chat-ai">AI</span>
+        <span className="chat-id"><span className="chat-title">Vektor agent</span><span className="chat-ai">AI</span></span>
+        <span className="live">Online 24/7/365</span>
       </div>
       <div className="chat-log" ref={logRef} role="log" aria-live="polite" aria-label="Conversation with Vektor's AI agent">
         <Bubble m={{ role: "assistant", content: GREETING }} />
@@ -121,7 +120,7 @@ export function AgentChat() {
         <label className="vh" htmlFor="chat-input">Message Vektor&rsquo;s AI agent</label>
         <textarea id="chat-input" ref={inputRef} rows={1} value={input} maxLength={2000} placeholder={offline ? "Agent offline on this preview" : "Ask about a load, a lane or hauling for Vektor…"}
           onChange={(e) => setInput(e.target.value)} onKeyDown={onKey} disabled={busy} />
-        <button className="btn" type="submit" disabled={busy || !input.trim()} aria-label="Send">Send <i className="ar" /></button>
+        <button className="btn" type="submit" disabled={busy || !input.trim()} aria-label="Send"><span className="chat-send-t">Send</span> <i className="ar" /></button>
       </form>
       <p className="chat-note">AI agent: it can make mistakes and can&rsquo;t quote rates or track loads. Don&rsquo;t share card or bank numbers. Chats may be reviewed to improve service. <Link href="/privacy">Privacy</Link></p>
     </div>

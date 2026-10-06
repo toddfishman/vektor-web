@@ -223,3 +223,41 @@ small.err, .sent.err, .qnote.err { color: var(--sig-ink); font-size: .85rem }
 /* small employee-portal link in the menu */
 .nav .nav-meta a.nav-portal:not(.btn) { font-family: var(--fm); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: var(--steel); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: .15rem }
 .nav .nav-meta a.nav-portal:not(.btn):hover { color: #fff; border-color: var(--sig) }
+
+/* ===== contact: chat first, more breathing room ===== */
+.agent-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); grid-template-areas: "chat head" "chat alt"; row-gap: 2.4rem; align-items: start }
+.agent-head { grid-area: head }
+.agent-head h1 { font-size: clamp(2.6rem, 5.6vw, 5rem); line-height: .92; letter-spacing: -.045em; font-stretch: 125%; margin-bottom: 1.2rem }
+.agent-head .lede { margin: 0 }
+.agent-grid > .chat { grid-area: chat }
+.agent-alt { grid-area: alt }
+.agent-alt .btns { margin-bottom: 1.4rem }
+.chat-top { justify-content: space-between; padding: 1rem 1.2rem }
+.chat-id { display: inline-flex; align-items: center; gap: .6rem }
+.chat-title { margin-left: 0; white-space: nowrap }
+.chat-top .live { white-space: nowrap }
+.chat-log { padding: 1.4rem 1.2rem; gap: 1.1rem }
+.chat-form { padding: .9rem 1rem; gap: .7rem }
+.chat-note { padding: .7rem 1.2rem 1rem }
+@media (max-width: 960px) {
+  .agent-grid { grid-template-columns: 1fr; grid-template-areas: "head" "chat" "alt"; row-gap: 2rem }
+  .agent-sec { padding-bottom: clamp(56px, 10vw, 96px) }
+}
+@media (max-width: 600px) {
+  .agent-head h1 { font-size: 2.7rem }
+  .agent-grid > .chat { margin-inline: calc(-1 * var(--gut) + 8px); height: min(640px, 76svh); min-height: 460px; border-radius: 16px }
+  .chat-top { padding: .9rem 1rem }
+  .chat-top .live { font-size: .6rem }
+  .chat-log { padding: 1.2rem 1rem; gap: 1rem }
+  .chat-msg { max-width: 92% }
+  .chat-text { font-size: 1rem; padding: .8rem 1rem }
+  .chat-starters { gap: .6rem }
+  .chat-starters button { padding: .65rem 1rem }
+  .chat-form { padding: .8rem; gap: .6rem }
+  .chat-form textarea { min-height: 52px; font-size: 16px }
+  .chat-form .btn { padding: 0; width: 52px; height: 52px; justify-content: center; flex: none }
+  .chat-send-t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0) }
+  .agent-alt .btns { gap: .7rem }
+  .agent-alt .btn { padding: .85rem 1.15rem }
+}
+@media (min-width: 961px) { .agent-grid { grid-template-rows: auto 1fr } }
