@@ -1,0 +1,66 @@
+/*
+  Vektor design tokens — the reskin layer.
+  Every color, font and spacing value the site uses comes from here.
+  To reskin: add a [data-theme="name"] block below that overrides the same
+  variables, then set `theme` in src/content/site.ts. Components never hard-code
+  brand colors.
+
+  Locked identity (Oct 6, 2026): Tyler's "Heading" arrow, Coral & Black.
+*/
+:root,
+[data-theme="coral"] {
+  color-scheme: dark;
+
+  /* grounds (dark-led) */
+  --night: #0D0D0D;
+  --night2: #161616;
+  --night3: #202020;
+  --night-rgb: 13, 13, 13;
+  --glow: #2A1614;
+  --foot: #080808;
+  --rule: rgba(255, 255, 255, .09);
+
+  /* paper (light sections) */
+  --paper: #F5F0EB;
+  --paper2: #E8E1D9;
+  --ink: #0D0D0D;
+  --ink2: #3E3A37;
+  --ink3: #77706A;
+
+  /* text on dark */
+  --fog: #D2CCC6;
+  --steel: #948C85;
+
+  /* accent */
+  --sig: #FF6B5B;          /* coral: fills, marks, accents on dark */
+  --sig2: #FF8A7D;         /* hover */
+  --sodium: #FFC2B8;       /* soft accent text on dark */
+  --sig-rgb: 255 107 91;
+  --on-sig: #0D0D0D;       /* text on a coral fill */
+  --sig-ink: #C2392B;      /* text-safe coral on light grounds */
+  --sig-soft: #FDEDEA;     /* selected states on light */
+  --go: #5BE39B;           /* live / success */
+
+  /* canvas lane maps read these (r,g,b) */
+  --map-a: 255, 107, 91;
+  --map-a2: 255, 138, 125;
+  --map-b: 255, 194, 184;
+  --map-dot: 138, 152, 168;
+
+  /* logo */
+  --logo-light: #F5F0EB;
+  --logo-dark: #0D0D0D;
+  --logo-accent: #FF6B5B;
+
+  /* type (self-hosted via @fontsource, see src/app/layout.tsx) */
+  --fd: 'Archivo Variable', 'Archivo', system-ui, sans-serif;               /* display */
+  --fb: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, sans-serif; /* body */
+  --fm: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace; /* labels */
+  --fw: 'Space Grotesk Variable', 'Space Grotesk', var(--fd);              /* wordmark */
+
+  /* layout */
+  --gut: clamp(16px, 4vw, 48px);
+  --max: 1320px;
+  --r: 14px;
+  --hdr-h: 76px;
+}
