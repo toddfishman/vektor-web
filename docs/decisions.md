@@ -14,7 +14,6 @@
 | `/team` isolated: own layout, `proxy.ts` gate, `Cache-Control: private, no-store`, noindex | Handoff requirement: never mixed into public caching. |
 | Old prototype features dropped: identity switcher, menu-style switcher, "Show Turvo field names" toggle | Prototype review tools, not site features. The Turvo mapping lives in code and docs instead. |
 | Quote miles/transit use the prototype's city list and great-circle × 1.18 | Planning estimate only, labeled as such. Real geocoding is a follow-up. |
-
 | Website AI agent = Claude (claude-sonnet-5-5) behind one `runAgent()` function, text chat first | Fast to ship and strong at grounded Q&A + tool use. Voice (Deepgram, another voice-agent platform) plugs in front later without changing prompt, knowledge or tools. |
 | Agent facts live in `src/lib/agent/knowledge.ts`, rules in `prompt.ts`; public sources only | Keeps internal/consulting material out of anything the public can query. Facts marked [CONFIRM] need Vektor sign-off. |
 | Agent tools are narrow: pre-fill a quote link, request a callback (with consent), show a page link | No rates, no booking, no shipment lookups until those systems and policies exist. |
