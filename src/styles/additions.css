@@ -261,3 +261,12 @@ small.err, .sent.err, .qnote.err { color: var(--sig-ink); font-size: .85rem }
   .agent-alt .btn { padding: .85rem 1.15rem }
 }
 @media (min-width: 961px) { .agent-grid { grid-template-rows: auto 1fr } }
+
+/* intro: header logo and Menu stay hidden until the logo animation finishes */
+body.intro-run .hdr .nav, body.intro-run .hdr .burger { animation: none !important }
+.hdr .burger { transition: opacity .6s }
+/* on the home page they're hidden from the very first paint (before scripts load) until the
+   intro marks itself done, or the visitor scrolls past it */
+body:has(.intro):not(.intro-done) .hdr .burger { opacity: 0; pointer-events: none }
+body:has(.intro):not(.intro-done) .hdr .logo { opacity: 0 !important; pointer-events: none }
+.hdr .logo { transition: opacity .6s }

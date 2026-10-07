@@ -10,6 +10,39 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, type CSSProperties } from "react";
 import { IntroMark } from "@/components/brand/logo";
 
+/** Arrow → V, EKTOR, LOGISTICS wipe and the shine are all done by about this point. */
+const INTRO_MS = 5600;
+const SCROLL_MS = 1900;
+
+/*
+  After the intro on first landing, glide down to the hero ("Freight with direction.").
+  Skipped with reduced motion or a #hash link, and cancelled the moment the visitor
+  scrolls, touches, clicks or presses a key — we never fight the user for the page.
+*/
+function autoScrollToHero() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || location.hash) return () => {};
+  let stopped = false, raf = 0;
+  const evts = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+  const stop = () => { stopped = true; cancelAnimationFrame(raf); evts.forEach((e) => removeEventListener(e, stop)); };
+  evts.forEach((e) => addEventListener(e, stop, { passive: true }));
+  const timer = setTimeout(() => {
+    const hero = document.getElementById("hero");
+    if (stopped || !hero || scrollY > 40) return stop();
+    const from = scrollY, to = hero.getBoundingClientRect().top + scrollY;
+    const ease = (t: number) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    let t0 = 0;
+    const step = (now: number) => {
+      if (stopped) return;
+      t0 ||= now;
+      const p = Math.min(1, (now - t0) / SCROLL_MS);
+      scrollTo({ top: from + (to - from) * ease(p), behavior: "instant" });
+      if (p < 1) raf = requestAnimationFrame(step); else stop();
+    };
+    raf = requestAnimationFrame(step);
+  }, INTRO_MS);
+  return () => { clearTimeout(timer); stop(); };
+}
+
 export function Intro() {
   const sec = useRef<HTMLElement>(null);
   const btn = useRef<HTMLButtonElement>(null);
@@ -46,16 +79,22 @@ export function Intro() {
       timers.current.push(setTimeout(() => { try { shine.current?.beginElement(); } catch { /* SMIL unsupported */ } }, 4250));
     }
     document.body.classList.add("intro-run");
-    timers.current.push(setTimeout(() => document.body.classList.remove("intro-run"), 5400));
+    timers.current.push(setTimeout(() => { document.body.classList.remove("intro-run"); document.body.classList.add("intro-done"); }, INTRO_MS));
   }, [flyMark]);
 
   useEffect(() => {
+    document.body.classList.remove("intro-done");
     run();
     document.body.classList.add("at-intro");
-    const io = new IntersectionObserver((es) => document.body.classList.toggle("at-intro", es[0].isIntersecting), { rootMargin: "-80px 0px 0px 0px" });
+    const io = new IntersectionObserver((es) => {
+      const at = es[0].isIntersecting;
+      document.body.classList.toggle("at-intro", at);
+      if (!at) document.body.classList.add("intro-done"); // scrolled past: show the header
+    }, { rootMargin: "-80px 0px 0px 0px" });
     if (sec.current) io.observe(sec.current);
     const t = timers.current;
-    return () => { io.disconnect(); t.forEach(clearTimeout); document.body.classList.remove("at-intro", "intro-run"); };
+    const stopAuto = autoScrollToHero();
+    return () => { io.disconnect(); t.forEach(clearTimeout); stopAuto(); document.body.classList.remove("at-intro", "intro-run", "intro-done"); };
   }, [run]);
 
   return (
